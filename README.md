@@ -4,6 +4,12 @@
 
 ![界面预览](预览.png)
 
+## 下载
+
+**[⬇ 下载最新便携版](https://github.com/lingdiaoluo/5e-live-widget/releases/latest)** —— Windows 10/11 x64，解压后双击 `5E比分.exe` 即可，无需安装 Node.js 或运行库。
+
+其他平台或不放心别人打的包，可按下方「快速开始」从源码运行。
+
 ## 功能
 
 - **大比分**：双方各赢下几张图，领先方高亮，队徽发光。
