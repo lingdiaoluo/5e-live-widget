@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+<title>5E 比分</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card">
+    <!-- 顶栏 -->
+    <div class="topbar">
+      <div class="brand drag">
+        <span class="dot" id="liveDot"></span>
+        <span class="brand-name">5E</span>
+        <span class="event" id="eventName">加载中…</span>
+      </div>
+      <div class="actions">
+        <button class="ico" id="btnList" title="选择比赛">☰</button>
+        <button class="ico" id="btnTop" title="窗口置顶">📌</button>
+        <button class="ico" id="btnSet" title="设置">⚙</button>
+      </div>
+    </div>
+
+    <!-- ① 大比分：已赢下的地图数 -->
+    <div class="series drag">
+      <div class="side">
+        <img class="slogo" id="slogo1" alt="" />
+        <div class="sname" id="sname1">—</div>
+      </div>
+      <div class="swins">
+        <b id="win1">0</b><i>:</i><b id="win2">0</b>
+      </div>
+      <div class="side">
+        <img class="slogo" id="slogo2" alt="" />
+        <div class="sname" id="sname2">—</div>
+      </div>
+    </div>
+    <div class="seriesbar">
+      <span class="bo" id="boText">BO3</span>
+      <span class="stat" id="statusline">—</span>
+      <span class="dots" id="boDots"></span>
+    </div>
+
+    <!-- ② 小比分：当前地图回合 -->
+    <div class="mapbox">
+      <div class="mb-head">
+        <span class="mb-title" id="curmap">—</span>
+        <span class="mb-round" id="curround"></span>
+      </div>
+      <div class="mb-body">
+        <span class="mb-cap">本图</span>
+        <div class="mb-score"><b id="m1">–</b><i>:</i><b id="m2">–</b></div>
+        <div class="mb-info" id="roundsMeta"></div>
+      </div>
+      <div class="pips" id="pips"></div>
+    </div>
+
+    <!-- ③ 战况事件流 -->
+    <div class="feed" id="feed">
+      <div class="feed-head">
+        <div class="seg mini-seg" id="segView">
+          <button data-view="feed" class="on">战况</button>
+          <button data-view="stats">数据总览</button>
+        </div>
+        <span class="feed-count" id="feedCount"></span>
+      </div>
+      <div class="feed-list" id="feedList"></div>
+      <div class="stats-list" id="statsList"></div>
+    </div>
+
+    <!-- ④ 地图战绩 -->
+    <div class="maps" id="maps"></div>
+
+    <div class="footer">
+      <span id="updated">—</span>
+      <span class="footer-btns">
+        <button class="mini" id="btnSize" title="切换大/中/小">大小</button>
+        <button class="mini" id="btnOpen">赛事页</button>
+        <button class="mini" id="btnRefresh">刷新</button>
+      </span>
+    </div>
+
+    <!-- 选比赛面板 -->
+    <div class="picker" id="picker">
+      <div class="picker-head drag">
+        <input id="search" placeholder="搜索战队名…" />
+        <button class="ico" id="btnClose">✕</button>
+      </div>
+      <div class="picker-list" id="pickerList"></div>
+      <div class="footer"><span>点击一场比赛即可固定到桌面</span><button class="mini" id="btnHide">隐藏</button></div>
+    </div>
+
+    <!-- 设置面板 -->
+    <div class="settings" id="settings">
+      <div class="picker-head drag">
+        <span class="set-heading">设置</span>
+        <button class="ico" id="btnSetClose">✕</button>
+      </div>
+      <div class="set-body">
+        <div class="set-row">
+          <div class="set-label">界面大小</div>
+          <div class="seg" id="segSize">
+            <button data-size="large">大</button>
+            <button data-size="medium">中</button>
+            <button data-size="small">小</button>
+          </div>
+        </div>
+        <div class="set-hint" id="sizeHint">大：完整版（430×470）</div>
+
+        <div class="set-row">
+          <div class="set-label">主题</div>
+          <div class="seg" id="segTheme">
+            <button data-theme="dark">黑夜</button>
+            <button data-theme="light">白天</button>
+          </div>
+        </div>
+
+        <div class="set-row">
+          <div class="set-label">刷新间隔</div>
+          <div class="seg tight" id="segInterval">
+            <button data-int="1">1s</button>
+            <button data-int="3">3s</button>
+            <button data-int="8">8s</button>
+            <button data-int="15">15s</button>
+            <button data-int="30">30s</button>
+            <button data-int="60">60s</button>
+          </div>
+        </div>
+        <div class="set-hint">1~3 秒刷新更跟手，但流量也更大（直播中每秒约 60KB 比分数据）</div>
+
+        <div class="set-row">
+          <div class="set-label">窗口透明度</div>
+          <div class="seg" id="segOpacity">
+            <button data-op="1">100%</button>
+            <button data-op="0.9">90%</button>
+            <button data-op="0.8">80%</button>
+          </div>
+        </div>
+
+        <div class="set-row">
+          <div class="set-label">圆角窗口</div>
+          <button class="switch" id="swRound"></button>
+        </div>
+
+        <div class="set-row">
+          <div class="set-label">窗口置顶</div>
+          <button class="switch" id="swTop"></button>
+        </div>
+
+        <div class="set-row">
+          <div class="set-label">开机自动启动</div>
+          <button class="switch" id="swBoot"></button>
+        </div>
+
+        <div class="set-tip">
+          选好尺寸后窗口会立刻变成对应大小；也可以右键托盘图标切换。<br />
+          数据来自 5E 赛事页接口，仅供个人观看。
+        </div>
+      </div>
+      <div class="footer"><span>设置会自动保存</span><button class="mini" id="btnSetDone">完成</button></div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

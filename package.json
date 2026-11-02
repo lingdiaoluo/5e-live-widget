@@ -1,0 +1,10 @@
+{
+  "name": "5e-live-widget",
+  "version": "1.0.0",
+  "description": "5EPlay 赛事实时比分桌面小组件",
+  "main": "main.js",
+  "scripts": { "start": "electron ." },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": { "electron": "^45.2.1" }
+}
